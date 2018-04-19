@@ -17,15 +17,15 @@ public class StyloKey {
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
         Enumeration<String> e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 1: " + tallyWeightedScore(alistair, samp1, e));
+        System.out.println("Keyword score between Alistair and Sample 1: " + tallyScore(alistair, samp1, e));
         e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 2: " + tallyWeightedScore(alistair, samp2, e));
+        System.out.println("Keyword score between Alistair and Sample 2: " + tallyScore(alistair, samp2, e));
         e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 3: " + tallyWeightedScore(alistair, samp3, e));
+        System.out.println("Keyword score between Alistair and Sample 3: " + tallyScore(alistair, samp3, e));
         e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 4: " + tallyWeightedScore(alistair, samp4, e));
+        System.out.println("Keyword score between Alistair and Sample 4: " + tallyScore(alistair, samp4, e));
         e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 5: " + tallyWeightedScore(alistair, samp5, e));
+        System.out.println("Keyword score between Alistair and Sample 5 (ACTUAL): " + tallyScore(alistair, samp5, e));
     }
 
     public static Hashtable<String, Integer> createHashtableAlpha(String filename) {
@@ -93,7 +93,7 @@ public class StyloKey {
                 int freqctrl = control.get(compare);
                 int freqcomp = comparer.get(compare);
                 int diff = Math.abs(freqctrl - freqcomp);
-                if (diff > 0 && diff <= 0.5*freqctrl) {
+                if (diff > 0 && diff < 2*freqctrl) {
                     score = score + ((1/diff)*freqctrl*freqcomp);
                 }
             }

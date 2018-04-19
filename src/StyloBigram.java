@@ -97,7 +97,7 @@ public class StyloBigram {
                 int freqctrl = control.get(compare);
                 int freqcomp = comparer.get(compare);
                 int diff = Math.abs(freqctrl - freqcomp);
-                if (diff > 0 && diff <= 0.5*freqctrl){
+                if (diff > 0 && diff < 2*freqctrl){
                     score = score + ((1/diff)*freqctrl*freqcomp);
                 }
             }
