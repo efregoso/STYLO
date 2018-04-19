@@ -2,18 +2,19 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
+import java.lang.Character;
 
-public class StyloKey {
+public class StyloBigram {
 
     private static Scanner sc = null;
 
     public static void main(String[] args) {
-        Hashtable<String, Integer> alistair = StyloKey.createHashtableAlpha("alistair.txt");
-        Hashtable<String, Integer> samp1 = StyloKey.createHashtableAlpha("keefauver2.txt");
-        Hashtable<String, Integer> samp2 = StyloKey.createHashtableAlpha("mason2.txt");
-        Hashtable<String, Integer> samp3 =StyloKey.createHashtableAlpha("monty2.txt");
-        Hashtable<String, Integer> samp4 =StyloKey.createHashtableAlpha("nunn2.txt");
-        Hashtable<String, Integer> samp5 =StyloKey.createHashtableAlpha("alistair2.txt");
+        Hashtable<String, Integer> alistair = StyloBigram.createHashtableAlpha("alistairsamechar.txt");
+        Hashtable<String, Integer> samp1 = StyloBigram.createHashtableAlpha("keefauver2samechar.txt");
+        Hashtable<String, Integer> samp2 = StyloBigram.createHashtableAlpha("mason2samechar.txt");
+        Hashtable<String, Integer> samp3 =StyloBigram.createHashtableAlpha("monty2samechar.txt");
+        Hashtable<String, Integer> samp4 =StyloBigram.createHashtableAlpha("nunn2samechar.txt");
+        Hashtable<String, Integer> samp5 =StyloBigram.createHashtableAlpha("alistair2samechar.txt");
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
         Enumeration<String> e = alistair.keys();
@@ -25,7 +26,7 @@ public class StyloKey {
         e = alistair.keys();
         System.out.println("Keyword score between Alistair and Sample 4: " + tallyScore(alistair, samp4, e));
         e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 5: " + tallyScore(alistair, samp5, e));
+        System.out.println("Keyword score between Alistair and Sample 5 (ACTUAL): " + tallyScore(alistair, samp5, e));
     }
 
     public static Hashtable<String, Integer> createHashtableAlpha(String filename) {
@@ -38,23 +39,26 @@ public class StyloKey {
         }
         for (; sc.hasNextLine(); ) {
             String line = sc.nextLine();
-            //split line along spaces
-            String[] lineArray = line.split(" ");
+            //create a character array
+            char[] lineArray = line.toCharArray();
+            StringBuilder amendWord = new StringBuilder();
             // remove everything that isn't an alphanumeric character
             for (int j = 0; j < lineArray.length; j++) {  //for each word in the line
-                String word = lineArray[j];
-                StringBuilder amendWord = new StringBuilder();
-                for (int k = 0; k < word.length(); k++) {    //for each letter in the word
-                    if (Character.isLetter(word.charAt(k))) {
-                        amendWord.append(word.charAt(k));
-                    }
+                if (Character.isLetter(lineArray[j])) {
+                    amendWord.append(lineArray[j]);
                 }
-                word = amendWord.toString();
-                word = word.toLowerCase();
-                //if the hashtable does not have this word in it, add it
-                if (hash.containsKey(word) == false && word.length() >= 5) {
+            }
+            char[] newLine = amendWord.toString().toCharArray();
+            //go through each pair of letters & add entries into the hashtable
+            for (int k = 0; k+1 < newLine.length; k++) {
+                StringBuilder buffer = new StringBuilder();
+                buffer.append(newLine[k]);
+                buffer.append(newLine[k+1]);
+                String word = buffer.toString();
+                //if the hashtable does not have this bigram in it, add it
+                if (hash.containsKey(word) == false) {
                     hash.put(word, 1);
-                } else if (word.length() >= 5) {
+                } else {
                     int newValue = hash.get(word);
                     newValue++;
                     hash.put(word, newValue);
