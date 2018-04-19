@@ -27,6 +27,7 @@ public class StyloBigram {
         System.out.println("Keyword score between Alistair and Sample 4: " + tallyWeightedScore(alistair, samp4, e));
         e = alistair.keys();
         System.out.println("Keyword score between Alistair and Sample 5 (ACTUAL): " + tallyWeightedScore(alistair, samp5, e));
+        sc.close();
     }
 
     public static Hashtable<String, Integer> createHashtableAlpha(String filename) {
