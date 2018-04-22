@@ -15,6 +15,8 @@ public class StyloUnigram {
         Hashtable<Character, Integer> samp3 = StyloUnigram.createHashtableAlpha("monty2samechar.txt");
         Hashtable<Character, Integer> samp4 = StyloUnigram.createHashtableAlpha("nunn2samechar.txt");
         Hashtable<Character, Integer> samp5 = StyloUnigram.createHashtableAlpha("alistair2samechar.txt");
+        Hashtable<Character, Integer> samp6 = StyloUnigram.createHashtableAlpha("revels2samechar.txt");
+        Hashtable<Character, Integer> samp7 = StyloUnigram.createHashtableAlpha("kaokakis2samechar.txt");
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
         Enumeration<Character> e = ctrl.keys();
@@ -27,12 +29,17 @@ public class StyloUnigram {
         System.out.println("Unigram score between control and Sample 4: " + tallyWeightedScore(ctrl, samp4, e));
         e = ctrl.keys();
         System.out.println("Unigram score between control and Sample 5 (ACTUAL): " + tallyWeightedScore(ctrl, samp5, e));
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 6: " + tallyWeightedScore(ctrl, samp6, e));
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 7: " + tallyWeightedScore(ctrl, samp7, e));
+        System.exit(0);
     }
 
     public static Hashtable<Character, Integer> createHashtableAlpha(String filename) {
         Hashtable<Character, Integer> hash = new Hashtable<Character, Integer>();
         try {
-            sc = new Scanner(new File("C:\\Users\\super\\OneDrive\\Documents\\DATA blog posts\\" + filename));
+            sc = new Scanner(new File("C:\\Users\\super\\Google Drive (emf65@case.edu)\\Code\\Git\\STYLO\\src\\DATA blog posts\\" + filename));
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
             System.exit(1);
@@ -86,8 +93,8 @@ public class StyloUnigram {
             if (comparer.containsKey(compare)){
                 int freqctrl = control.get(compare);
                 int freqcomp = comparer.get(compare);
-                if (freqcomp >= 0.75*freqctrl && freqcomp <=1.25*freqctrl) {
-                    if (freqcomp > 0.9*freqctrl && freqcomp < 1.1*freqctrl) {
+                if (freqcomp >= 0.80*freqctrl && freqcomp <=1.20*freqctrl) {
+                    if (freqcomp > 0.95*freqctrl && freqcomp < 1.05*freqctrl) {
                         score = score + 2;
                     }
                     else {

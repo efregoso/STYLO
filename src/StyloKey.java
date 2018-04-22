@@ -14,6 +14,8 @@ public class StyloKey {
         Hashtable<String, Integer> samp3 =StyloKey.createHashtableAlpha("monty2sameword.txt");
         Hashtable<String, Integer> samp4 =StyloKey.createHashtableAlpha("nunn2sameword.txt");
         Hashtable<String, Integer> samp5 =StyloKey.createHashtableAlpha("alistair2sameword.txt");
+        Hashtable<String, Integer> samp6 =StyloKey.createHashtableAlpha("revels2sameword.txt");
+        Hashtable<String, Integer> samp7 =StyloKey.createHashtableAlpha("kaokakis2sameword.txt");
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
         Enumeration<String> e = ctrl.keys();
@@ -26,13 +28,17 @@ public class StyloKey {
         System.out.println("Keyword score between control and Sample 4: " + tallyWeightedScore(ctrl, samp4, e));
         e = ctrl.keys();
         System.out.println("Keyword score between control and Sample 5 (ACTUAL): " + tallyWeightedScore(ctrl, samp5, e));
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 6: " + tallyWeightedScore(ctrl, samp6, e));
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 7: " + tallyWeightedScore(ctrl, samp7, e));
         System.exit(0);
     }
 
     public static Hashtable<String, Integer> createHashtableAlpha(String filename) {
         Hashtable<String, Integer> hash = new Hashtable<String, Integer>();
         try {
-            sc = new Scanner(new File("C:\\Users\\super\\OneDrive\\Documents\\DATA blog posts\\" + filename));
+            sc = new Scanner(new File("C:\\Users\\super\\Google Drive (emf65@case.edu)\\Code\\Git\\STYLO\\src\\DATA blog posts\\" + filename));
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
             System.exit(1);
@@ -62,6 +68,8 @@ public class StyloKey {
                 }
             }
         }
+        sc.close();
+        System.out.println(hash.toString());
         return hash;
     }
 

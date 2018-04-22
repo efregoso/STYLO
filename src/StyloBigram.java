@@ -15,6 +15,8 @@ public class StyloBigram {
         Hashtable<String, Integer> samp3 = StyloBigram.createHashtableAlpha("monty2samechar.txt");
         Hashtable<String, Integer> samp4 = StyloBigram.createHashtableAlpha("nunn2samechar.txt");
         Hashtable<String, Integer> samp5 = StyloBigram.createHashtableAlpha("alistair2samechar.txt");
+        Hashtable<String, Integer> samp6 = StyloBigram.createHashtableAlpha("revels2samechar.txt");
+        Hashtable<String, Integer> samp7 = StyloBigram.createHashtableAlpha("kaokakis2samechar.txt");
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
         Enumeration<String> e = ctrl.keys();
@@ -27,13 +29,17 @@ public class StyloBigram {
         System.out.println("Bigram score between control and Sample 4: " + tallyWeightedScore(ctrl, samp4, e));
         e = ctrl.keys();
         System.out.println("Bigram score between control and Sample 5 (ACTUAL): " + tallyWeightedScore(ctrl, samp5, e));
-        sc.close();
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 6: " + tallyWeightedScore(ctrl, samp6, e));
+        e = ctrl.keys();
+        System.out.println("Keyword score between control and Sample 7: " + tallyWeightedScore(ctrl, samp7, e));
+        System.exit(0);
     }
 
     public static Hashtable<String, Integer> createHashtableAlpha(String filename) {
         Hashtable<String, Integer> hash = new Hashtable<String, Integer>();
         try {
-            sc = new Scanner(new File("C:\\Users\\super\\OneDrive\\Documents\\DATA blog posts\\" + filename));
+            sc = new Scanner(new File("C:\\Users\\super\\Google Drive (emf65@case.edu)\\Code\\Git\\STYLO\\src\\DATA blog posts\\" + filename));
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
             System.exit(1);
@@ -67,6 +73,8 @@ public class StyloBigram {
                 }
             }
         }
+        sc.close();
+        System.out.println(hash.toString());
         return hash;
     }
 
@@ -88,8 +96,8 @@ public class StyloBigram {
             if (comparer.containsKey(compare)){
                 int freqctrl = control.get(compare);
                 int freqcomp = comparer.get(compare);
-                if (freqcomp >= 0.75*freqctrl && freqcomp <=1.25*freqctrl) {
-                    if (freqcomp > 0.9*freqctrl && freqcomp < 1.1*freqctrl) {
+                if (freqcomp >= 0.8*freqctrl && freqcomp <=1.2*freqctrl) {
+                    if (freqcomp > 0.95*freqctrl && freqcomp < 1.05*freqctrl) {
                         score = score + 2;
                     }
                     else {
