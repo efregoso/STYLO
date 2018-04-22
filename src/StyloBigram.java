@@ -9,24 +9,24 @@ public class StyloBigram {
     private static Scanner sc = null;
 
     public static void main(String[] args) {
-        Hashtable<String, Integer> alistair = StyloBigram.createHashtableAlpha("alistairsamechar.txt");
+        Hashtable<String, Integer> ctrl = StyloBigram.createHashtableAlpha("alistairsamechar.txt");
         Hashtable<String, Integer> samp1 = StyloBigram.createHashtableAlpha("keefauver2samechar.txt");
         Hashtable<String, Integer> samp2 = StyloBigram.createHashtableAlpha("mason2samechar.txt");
-        Hashtable<String, Integer> samp3 =StyloBigram.createHashtableAlpha("monty2samechar.txt");
-        Hashtable<String, Integer> samp4 =StyloBigram.createHashtableAlpha("nunn2samechar.txt");
-        Hashtable<String, Integer> samp5 =StyloBigram.createHashtableAlpha("alistair2samechar.txt");
+        Hashtable<String, Integer> samp3 = StyloBigram.createHashtableAlpha("monty2samechar.txt");
+        Hashtable<String, Integer> samp4 = StyloBigram.createHashtableAlpha("nunn2samechar.txt");
+        Hashtable<String, Integer> samp5 = StyloBigram.createHashtableAlpha("alistair2samechar.txt");
         //compare values with the first guy & tally "points": frequency is a weight variable
         //(freq1alistair * freq1other) + (freq2alistair * freq2other) + ..
-        Enumeration<String> e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 1: " + tallyWeightedScore(alistair, samp1, e));
-        e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 2: " + tallyWeightedScore(alistair, samp2, e));
-        e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 3: " + tallyWeightedScore(alistair, samp3, e));
-        e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 4: " + tallyWeightedScore(alistair, samp4, e));
-        e = alistair.keys();
-        System.out.println("Keyword score between Alistair and Sample 5 (ACTUAL): " + tallyWeightedScore(alistair, samp5, e));
+        Enumeration<String> e = ctrl.keys();
+        System.out.println("Bigram score between control and Sample 1: " + tallyWeightedScore(ctrl, samp1, e));
+        e = ctrl.keys();
+        System.out.println("Bigram score between control and Sample 2: " + tallyWeightedScore(ctrl, samp2, e));
+        e = ctrl.keys();
+        System.out.println("Bigram score between control and Sample 3: " + tallyWeightedScore(ctrl, samp3, e));
+        e = ctrl.keys();
+        System.out.println("Bigram score between control and Sample 4: " + tallyWeightedScore(ctrl, samp4, e));
+        e = ctrl.keys();
+        System.out.println("Bigram score between control and Sample 5 (ACTUAL): " + tallyWeightedScore(ctrl, samp5, e));
         sc.close();
     }
 
@@ -40,6 +40,7 @@ public class StyloBigram {
         }
         for (; sc.hasNextLine(); ) {
             String line = sc.nextLine();
+            line = line.toLowerCase();
             //create a character array
             char[] lineArray = line.toCharArray();
             StringBuilder amendWord = new StringBuilder();
@@ -69,16 +70,6 @@ public class StyloBigram {
         return hash;
     }
 
-    public static void testEnum(){
-        Hashtable<String, String> test = new Hashtable<String, String>();
-        test.put("Hello", "there");
-        test.put("nerd", "there");
-        test.put("there", "there");
-        for (Enumeration<String> e = test.keys(); e.hasMoreElements();) {
-            System.out.println(e.nextElement());
-        }
-    }
-
     public static int tallyScore(Hashtable<String, Integer> control, Hashtable<String, Integer> comparer, Enumeration<String> e){
         int score = 0;
         for (; e.hasMoreElements();) {
@@ -97,9 +88,13 @@ public class StyloBigram {
             if (comparer.containsKey(compare)){
                 int freqctrl = control.get(compare);
                 int freqcomp = comparer.get(compare);
-                int diff = Math.abs(freqctrl - freqcomp);
-                if (diff > 0 && diff < 2*freqctrl){
-                    score = score + ((1/diff)*freqctrl*freqcomp);
+                if (freqcomp >= 0.75*freqctrl && freqcomp <=1.25*freqctrl) {
+                    if (freqcomp > 0.9*freqctrl && freqcomp < 1.1*freqctrl) {
+                        score = score + 2;
+                    }
+                    else {
+                        score = score + 1;
+                    }
                 }
             }
         }
